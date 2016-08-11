@@ -1,0 +1,24 @@
+{
+  "name": "tun-sie",
+  "version": "0.1.0",
+  "description": "Automatic replicator of certificates",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leoschet/tun-Sie.git"
+  },
+  "author": "Leonardo Schettini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leoschet/tun-Sie/issues"
+  },
+  "homepage": "https://github.com/leoschet/tun-Sie#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0"
+  }
+}
