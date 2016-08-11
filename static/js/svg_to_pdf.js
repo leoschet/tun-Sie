@@ -1,0 +1,49 @@
+/**
+ * @param {SVGElement} svg
+ * @param {Function} callback
+ * @param {jsPDF} callback.pdf
+ * */
+function svg_to_pdf(svg, callback) {
+	svgAsDataUri(svg, {}, function(svg_uri) {
+		
+		var image = document.createElement('img');
+
+		image.src = svg_uri;
+		console.log(svg_uri);
+		console.log(image);
+
+		image.onload = function() {
+			var canvas = document.createElement('canvas');
+			canvas.id = 'canvas'
+			canvas.width = image.width;
+			canvas.height = image.height;
+
+			var context = canvas.getContext('2d');
+			
+			var doc = new jsPDF('l', 'pt', [612, 340]);
+			
+			var dataUrl;
+
+			context.drawImage(image, 0, 0, image.width, image.height);
+			dataUrl = canvas.toDataURL('image/jpeg');
+			doc.addImage(dataUrl, 'jpeg', 0, 0, image.width, image.height);
+
+			callback(doc);
+		}
+	});
+}
+
+/**
+ * @param {string} name Name of the file
+ * @param {string} dataUriString
+*/
+function download_pdf(name, dataUriString) {
+	var link = document.createElement('a');
+	link.addEventListener('click', function(ev) {
+		link.href = dataUriString;
+		link.download = name;
+		document.body.removeChild(link);
+	}, false);
+	document.body.appendChild(link);
+	link.click();
+}
