@@ -32,9 +32,10 @@ You are free to contribute with the project, fork it and start coding!
 ## Next steps
 - Tag replacing
 - Automatic download
-- User-friendly interface
+- Validate Tag-replacing fields
+- User-friendly interface (80%)
 - Dinamically SVG set
-- Dinamically Tag replacing (set the tags and the information in runtime)
+- Dinamically Tag-replacing fields (set the tags and the information in runtime)
 - PDF download option
 
 # License
