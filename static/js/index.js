@@ -1,21 +1,25 @@
 var load = document.getElementById('load');
-var download = document.getElementById('download');
+var downloadSVG = document.getElementById('downloadSVG');
+var downloadPNG = document.getElementById('downloadPNG');
 var divEl = document.getElementById('svgDiv');
 
 load.addEventListener('click', function() {
 
-	Pablo(divEl).load('/Untitled-2.svg');
+	Pablo(divEl).load('/images/Untitled-2.svg');
 
 });
 
 var uri;
 
-download.addEventListener('click', function() { 
+downloadSVG.addEventListener('click', function() { 
 	Pablo(divEl.firstElementChild).download('svg', 'circ.svg');
-	// Pablo(divEl.firstElementChild).download('png', 'circ.png');
 	
 	// svg_to_pdf(document.querySelector("svg"), function (pdf) {
 	// 	download_pdf('SVG.pdf', pdf.output('dataurlstring'));
 	// });
 
+});
+
+downloadPNG.addEventListener('click', function() { 
+	Pablo(divEl.firstElementChild).download('png', 'circ.png');
 });
