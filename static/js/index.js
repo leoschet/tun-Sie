@@ -21,27 +21,37 @@ downloadPNG.addEventListener('click', function() {
 
 function downloadSingle(format) {
 
-	var fileName = 'circle'
 
 	var courseName = document.getElementById('course-name').value;
 	var courseDuration = document.getElementById('course-duration').value;
 	var courseInit = document.getElementById('course-init').value;
 	var courseEnd = document.getElementById('course-end').value;
 
+	svgTagReplacing(courseName, courseDuration, courseInit, courseEnd);
 
 	var namesList = getNames(document.getElementById('names').value);
-	var svgElement;
+	var totalDownloads = 0;
 	for (var i = namesList.length - 1; i >= 0; i--) {
-		console.log(namesList[i]);
+		var fileName = courseName + 'Certificate - ' + namesList[i];
+		console.log('nome: ' + namesList[i]);
 
 		// Replace the name without concerning the line size
-		svgTagReplacing(courseName, courseDuration, courseInit, courseEnd, namesList[i]);
+		if (i === namesList.length - 1) {
+			replaceName(namesList[i]);
+		} else {
+			replaceName(namesList[i], namesList[i+1]);
+		}
 		
 		// Adjust lines
 		adjustLines();
-		
-		var divEl = document.getElementById('svgDiv');
-		Pablo(divEl.firstElementChild).download(format, fileName + '.' + format);
+
+		if (totalDownloads < namesList.length) {
+			var divEl = document.getElementById('svgDiv');
+			Pablo(divEl.firstElementChild).download(format, fileName + '.' + format);
+			totalDownloads += 1;
+		} else {
+			console.log('INTERNAL ERROR (DOWNLOADS LOOP NOT STOPING)');
+		}
 	}
 
 }
@@ -54,18 +64,25 @@ function getNames(namesText) {
 		namesList[i] = namesList[i].trim();
 	}
 
+	if (namesList[namesList.length - 1] == '') {
+		namesList.pop();
+	}
+
 	return namesList;
 }
 
-function svgTagReplacing(courseName, courseDuration, courseInit, courseEnd, studentName) {
+function svgTagReplacing(courseName, courseDuration, courseInit, courseEnd) {
 	var textField = document.getElementById('text-to-replace');
 
 	textField.innerHTML = textField.innerHTML.replace("{course_name}", courseName);
 	textField.innerHTML = textField.innerHTML.replace("{course_duration}", courseDuration);
 	textField.innerHTML = textField.innerHTML.replace("{course_init}", courseInit);
 	textField.innerHTML = textField.innerHTML.replace("{course_end}", courseEnd);
-	
-	textField.innerHTML = textField.innerHTML.replace("{name}", studentName);
+}
+
+function replaceName(newName, lastName = "{name}") {
+	var textField = document.getElementById('text-to-replace');
+	textField.innerHTML = textField.innerHTML.replace(lastName, newName);
 }
 
 // For each 2 letters less than 45, take out 6.6 of x position. from -11.8 to 285. middle at 136.6
@@ -76,7 +93,6 @@ function adjustLines() {
 	var maxLength = 45;
 	var perLetter = 3.3;
 	var minimun = -11.8;
-	var lineSize = 14.4;
 	for (var i = 0; i < textField.children.length; i++) {
 		// Get stored words and place in the beginning of the new line text
 		if (buffer.length != '') {
@@ -113,7 +129,8 @@ function adjustLines() {
 			textField.children[i].innerHTML = textField.children[i].innerHTML.substring(0, index);
 
 			// Adjust the text's x position
-			textField.children[i].setAttribute('x', minimun)
+			var newLengthVariation = maxLength - textField.children[i].innerHTML.length;
+			textField.children[i].setAttribute('x', getXPosition(newLengthVariation, minimun, perLetter))
 		}
 
 	}
