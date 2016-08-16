@@ -30,9 +30,9 @@ TODO: Write this section
 You are free to contribute with the project, fork it and start coding!
 
 ## Next steps
-- Tag replacing
-- Automatic download
+- Tag replacing (80% - new focus: Implement a SVG line wrapper)
 - Validate Tag-replacing fields
+- Validate SVG load
 - User-friendly interface (80%)
 - Dinamically SVG set
 - Dinamically Tag-replacing fields (set the tags and the information in runtime)
