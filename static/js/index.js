@@ -105,6 +105,7 @@ function adjustLines() {
 
 		// The text fits the max length
 		if (lengthVariation >= 0) {
+			// Adjust text's x position
 			textField.children[i].setAttribute('x', getXPosition(lengthVariation, minimun, perLetter))
 		} else {
 			// If the text don't fit, the code need to guarantee two conditions:
